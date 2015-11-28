@@ -2,53 +2,59 @@
 //  SoundListViewController.swift
 //  Soundboard
 //
-//  Created by crazytin on 10/14/15.
+//  Created by Abtin Mehr on 10/14/15.
 //  Copyright © 2015 crazytin. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
+import CoreData
 
 class SoundListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
+  
+  
     @IBOutlet weak var tableView: UITableView!
     
     var audioPlayer =  AVAudioPlayer()
-    
     var sounds: [Sound] = []
-  
-    
+ 
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     
         self.tableView.dataSource = self
         self.tableView.delegate = self
-    
         
-        let  soundPath = NSBundle.mainBundle().pathForResource("chaching", ofType: "m4a")
-        let  soundURL = NSURL.fileURLWithPath(soundPath!)
+     
         
         
-        let sound1 = Sound()
-        sound1.name = "KEY SHAKE"
-        sound1.URL = soundURL
         
-        
-        let sound2 = Sound()
-        sound2.name = "FUCK"
-        sound2.URL = soundURL
-        
-        self.sounds.append(sound1)
-        self.sounds.append(sound2)
-       
-    
     }
     
     
     override func viewWillAppear(animated: Bool) {
+       
+        
+        super.viewWillAppear(animated)
+        
+        
+        let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let request = NSFetchRequest(entityName: "Sound")
+        self.sounds = try! context.executeFetchRequest(request) as! [Sound]
+        
         self.tableView.reloadData()
+        
+        
+        
+            
+            
+        
+            
+        
+        
     }
     
     
@@ -59,26 +65,65 @@ class SoundListViewController: UIViewController, UITableViewDataSource, UITableV
     
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView , cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+      
+    
         let sound = self.sounds[indexPath.row]
         let  cell = UITableViewCell()
+        
+        
         cell.textLabel!.text = sound.name
-        return cell
+       return cell
+        
+        
+        
+      
+        
         
         
     }
-
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       
+       
+        
+        
         
         let sound = self.sounds[indexPath.row]
+        let baseString : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]
+        let pathComponents = [baseString, sound.url]
+        let audioNSURL = NSURL.fileURLWithPathComponents(pathComponents)!
         
         
-        self.audioPlayer =  try! AVAudioPlayer(contentsOfURL: sound.URL)
-        self.audioPlayer.play()
+     
+        
+        
+        do{
+            
+                try self.audioPlayer =  AVAudioPlayer(contentsOfURL: audioNSURL)
+                self.audioPlayer.play()
+        
+        
+        }
+        catch{
+        
+            print("Error in sound path")
+        
+        }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        
     
-    }
+   }
     
+    
+    
+    
+   
+    
+
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -90,13 +135,6 @@ class SoundListViewController: UIViewController, UITableViewDataSource, UITableV
     
     }
     
-
-
-
-
-
-
-
 
 }
 

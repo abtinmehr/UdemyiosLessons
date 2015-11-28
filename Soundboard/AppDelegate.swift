@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Soundboard
 //
-//  Created by crazytin on 10/14/15.
-//  Copyright © 2015 crazytin. All rights reserved.
+//  Created by Abtin Mehr on 10/14/15.
+//   Copyright © 2015 crazytin . All rights reserved.
 //
 
 import UIKit

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8Fe-Ha-hds">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -61,6 +62,7 @@
                         <viewControllerLayoutGuide type="bottom" id="hsO-BI-AFD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1bS-xa-7gt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5kd-sr-F9j">
@@ -142,15 +144,15 @@
                                 <exclude reference="0uC-6M-O8U"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="IVl-IM-nkb"/>
-                                <exclude reference="lp4-NH-H5z"/>
-                                <exclude reference="rBD-AZ-7Zn"/>
                                 <exclude reference="4N3-PR-LWp"/>
                                 <exclude reference="cDe-rv-yOF"/>
                                 <exclude reference="ccy-eF-bJa"/>
                                 <exclude reference="RTq-Ea-XCJ"/>
                                 <exclude reference="cgd-EQ-VmK"/>
                                 <exclude reference="tIf-RX-4FE"/>
+                                <exclude reference="IVl-IM-nkb"/>
+                                <exclude reference="lp4-NH-H5z"/>
+                                <exclude reference="rBD-AZ-7Zn"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -160,15 +162,15 @@
                                 <include reference="0uC-6M-O8U"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="IVl-IM-nkb"/>
-                                <include reference="lp4-NH-H5z"/>
-                                <include reference="rBD-AZ-7Zn"/>
                                 <include reference="4N3-PR-LWp"/>
                                 <include reference="cDe-rv-yOF"/>
                                 <include reference="ccy-eF-bJa"/>
                                 <include reference="RTq-Ea-XCJ"/>
                                 <include reference="cgd-EQ-VmK"/>
                                 <include reference="tIf-RX-4FE"/>
+                                <include reference="IVl-IM-nkb"/>
+                                <include reference="lp4-NH-H5z"/>
+                                <include reference="rBD-AZ-7Zn"/>
                             </mask>
                         </variation>
                     </view>

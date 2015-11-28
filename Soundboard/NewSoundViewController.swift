@@ -2,12 +2,13 @@
 //  NewSoundViewController.swift
 //  Soundboard
 //
-//  Created by crazytin on 10/20/15.
+//  Created by Abtin Mehr on 10/20/15.
 //  Copyright © 2015 crazytin. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
+import CoreData
 
 
 class NewSoundViewController : UIViewController {
@@ -16,34 +17,27 @@ class NewSoundViewController : UIViewController {
     
        
         let baseString : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
-        
-        let pathComponents = [baseString, "MyAudio.m4a"]
-        
-        self.audioURL = NSURL.fileURLWithPathComponents(pathComponents)!
+        let randomName = NSUUID().UUIDString
+        self.audioURL = randomName + ".m4a"
+        let pathComponents = [baseString, self.audioURL]
+        let audioNSURL = NSURL.fileURLWithPathComponents(pathComponents)!
         
         let session = AVAudioSession.sharedInstance()
-        
         try! session.setCategory( AVAudioSessionCategoryPlayAndRecord)
         
         
         var recordSettings: [String : AnyObject] = Dictionary()
-        
         recordSettings[AVFormatIDKey] = NSNumber(int: Int32(kAudioFormatMPEG4AAC))
-        
         recordSettings[AVSampleRateKey] = 44100.0
-        
         recordSettings[AVNumberOfChannelsKey] = 2
         
-        try!  audioRecorder = AVAudioRecorder(URL: self.audioURL, settings: recordSettings)
+        try!  audioRecorder = AVAudioRecorder(URL: audioNSURL, settings: recordSettings)
         
         
         
         self.audioRecorder.meteringEnabled = true
-        
         self.audioRecorder.prepareToRecord()
         
-        
-      
         // Super init is below
         super.init(coder: aDecoder)!
     
@@ -51,22 +45,17 @@ class NewSoundViewController : UIViewController {
     
     var previousViewController = SoundListViewController()
     var audioRecorder: AVAudioRecorder
-    var audioURL: NSURL
+    var audioURL: String
     
     
     @IBOutlet weak var soundTextField: UITextField!
     @IBOutlet weak var recordButton: UIButton!
     
     
-    
-    
-   
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        //Roll Tide Nigga.
-    
+       
     }
 
 
@@ -79,17 +68,25 @@ class NewSoundViewController : UIViewController {
     
     @IBAction func saveTapped(sender: AnyObject) {
         
+   
+        let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
         //Create a sound object
+        let sound = NSEntityDescription.insertNewObjectForEntityForName("Sound", inManagedObjectContext: context) as! Sound
         
-        let sound = Sound()
         sound.name = self.soundTextField.text!
-        sound.URL = self.audioURL
-        
-        
-        //Add sound to sounds Array
-        
-        self.previousViewController.sounds.append(sound)
-        
+        sound.url = self.audioURL
+       
+        //save sound to CoreData
+        do{
+            
+            try  context.save()
+        }
+        catch{
+            
+            print("Could Not Save")
+            
+        }
         
         //Dismiss this ViewController
         
@@ -120,15 +117,4 @@ class NewSoundViewController : UIViewController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
 }
-
